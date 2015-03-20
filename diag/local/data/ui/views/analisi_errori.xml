@@ -1,0 +1,92 @@
+<form>
+  <label>Analisi Errori</label>
+  <description>Analisi errori Splunk</description>
+  <fieldset submitButton="true" autoRun="true">
+    <input type="multiselect" token="host">
+      <label>Host-cliente</label>
+      <populatingSearch fieldForLabel="host" fieldForValue="host">|metadata index=diag type=hosts | table host</populatingSearch>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="checkbox" token="severity">
+      <label>Severity</label>
+      <choice value="log_level=WARN">WARN</choice>
+      <choice value="log_level=ERROR">ERROR</choice>
+      <default>status=WARN,status=ERROR</default>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="multiselect" token="component">
+      <label>Componente</label>
+      <populatingSearch fieldForLabel="label" fieldForValue="component">index=diag sourcetype=splunkd host=$host$ (log_level=ERR OR log_level=WARN) | fields component | stats count by component | eval label=component."(".count.")"</populatingSearch>
+      <delimiter> OR </delimiter>
+      <choice value="*">Tutti</choice>
+      <valuePrefix>component="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+    </input>
+    <input type="text" token="condizione" searchWhenChanged="true">
+      <label>Condizione</label>
+      <default>*</default>
+    </input>
+    <input type="time" token="Time">
+      <label>Intervallo</label>
+      <default>
+        <earliestTime>0</earliestTime>
+        <latestTime></latestTime>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <chart>
+        <search>
+          <query>index=diag host=$host$ $severity$ source=*/*.log* $component$ $condizione$
+| timechart count by sourcetype</query>
+          <earliest>$Time.earliest$</earliest>
+          <latest>$Time.latest$</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.axisY2.enabled">false</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <event>
+        <title>Error or Warning</title>
+        <search>
+          <query>index=diag host=$host$ source=*/*.log* $component$ $condizione$ $severity$</query>
+          <earliest>$Time.earliest$</earliest>
+          <latest>$Time.latest$</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="list.drilldown">full</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="rowNumbers">0</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+        <fields>[]</fields>
+      </event>
+    </panel>
+  </row>
+</form>

@@ -1,0 +1,10 @@
+<nav search_view="search" color="#65A637">
+  <view name="analisi_carico" default='true' />
+  <view name="analisi_sistema" />
+  <view name="analisi_errori" />
+  <view name="search" />
+  <view name="data_models" />
+  <view name="reports" />
+  <view name="alerts" />
+  <view name="dashboards" />
+</nav>

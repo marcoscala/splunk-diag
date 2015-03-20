@@ -1,0 +1,62 @@
+<form>
+  <label>Analisi Sistema - Connessioni</label>
+  <description>Dati di Sistema per troubleshooting</description>
+  <fieldset submitButton="true">
+    <input type="multiselect" token="host">
+      <label>Host-Cliente</label>
+      <populatingSearch fieldForLabel="host" fieldForValue="host">|metadata index=diag type=hosts | table host</populatingSearch>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="text" token="dest_port">
+      <label>Local Port</label>
+      <default>*</default>
+    </input>
+    <input type="text" token="src_port">
+      <label>Foreign Port</label>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <single>
+        <searchString>index=diag host=$host$ source=*/systeminfo.txt TIME_WAIT 
+ | rex (?&lt;dest_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;dest_port&gt;\d+)\s+(?&lt;src_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;src_port&gt;\d+)\s+(?&lt;status&gt;\w+)
+| search (dest_port=$dest_port$ AND src_port=$src_port$) 
+| stats count</searchString>
+        <earliestTime>0</earliestTime>
+        <latestTime/>
+        <option name="drilldown">none</option>
+        <option name="beforeLabel">Numero Connessioni:</option>
+        <option name="linkView">search</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Connessioni in TIME_WAIT su porta $dest_port$ da porta $src_port$</title>
+        <searchString>index=diag host=$host$ source=*systeminfo.txt TIME_WAIT | rex (?&lt;dest_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;dest_port&gt;\d+)\s+(?&lt;src_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;src_port&gt;\d+)\s+(?&lt;status&gt;\w+) | search (dest_port=$dest_port$ AND src_port=$src_port$) |stats count as "N.Connessioni" by dest_ip, dest_port,src_ip,src_port  | sort - "N.Connessioni" | rename dest_ip AS "Local Address" dest_port as "Local Port" src_ip AS "Foreign Address" src_port AS "Foreign Port"</searchString>
+        <earliestTime>0</earliestTime>
+        <latestTime/>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">15</option>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>Connessioni Attive</title>
+        <searchString>index=diag host=$host$ source=*systeminfo.txt NOT TIME_WAIT | rex (?&lt;dest_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;dest_port&gt;\d+)\s+(?&lt;src_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;src_port&gt;\d+)\s+(?&lt;status&gt;\w+) | search (dest_port=$dest_port$ AND src_port=$src_port$) | stats count as "N.Connessioni" by dest_ip, dest_port,src_ip,src_port | sort - "N.Connessioni" | rename dest_ip AS "Local Address" dest_port as "Local Port" src_ip AS "Foreign Address" src_port AS "Foreign Port"</searchString>
+        <earliestTime>0</earliestTime>
+        <latestTime/>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+</form>

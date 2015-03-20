@@ -1,0 +1,55 @@
+[app/ui]
+version = 6.1.5
+modtime = 1422538984.556050000
+
+[app/launcher]
+version = 6.1.5
+modtime = 1422538984.569401000
+
+[views/analisi_carico]
+owner = admin
+version = 6.2.1
+modtime = 1426072087.368553000
+
+[nav/default]
+version = 6.1.5
+modtime = 1424882573.924729000
+
+[views/analisi_sistema]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 6.2.1
+modtime = 1426089683.331842000
+
+[indexes/prova_diag]
+owner = admin
+version = 6.1.5
+modtime = 1424865403.552357000
+
+[views/analisi_errori]
+owner = admin
+version = 6.2.1
+modtime = 1425920073.479108000
+
+[app/install/install_source_checksum]
+version = 6.2.1
+modtime = 1425289129.059798000
+
+[props/source%3A%3A...%2F%2A.log%2A/EXTRACT-generale]
+export = none
+owner = admin
+version = 6.2.1
+modtime = 1426090913.796757000
+
+[datamodels/Diagnostica]
+export = none
+owner = marcos
+version = 6.2.1
+modtime = 1426630925.319754000
+
+[models/Diagnostica]
+export = none
+owner = marcos
+version = 6.2.1
+modtime = 1426630925.342695000

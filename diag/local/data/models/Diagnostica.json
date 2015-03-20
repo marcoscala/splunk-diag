@@ -1,0 +1,418 @@
+{
+    "modelName": "Diagnostica",
+    "displayName": "Diagnostica",
+    "description": "",
+    "objectSummary": {
+        "Event-Based": 2,
+        "Transaction-Based": 0,
+        "Search-Based": 0
+    },
+    "objects": [
+        {
+            "objectName": "Metrics",
+            "displayName": "Metrics",
+            "parentName": "BaseEvent",
+            "fields": [
+                {
+                    "fieldName": "current_size",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "current_size",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "current_size_kb",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "current_size_kb",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "eps",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "eps",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "ev",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "ev",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "group",
+                    "owner": "Metrics",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "group",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "kb",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "kb",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "kbps",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "kbps",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "max_age",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "max_age",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "max_lag",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "max_lag",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "max_size",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "max_size",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "max_size_kb",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "max_size_kb",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "name",
+                    "owner": "Metrics",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "name",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "index=diag source=*/metrics.lo*",
+                    "owner": "Metrics"
+                }
+            ],
+            "lineage": "Metrics"
+        },
+        {
+            "objectName": "coda",
+            "displayName": "coda",
+            "parentName": "Metrics",
+            "fields": [
+                {
+                    "fieldName": "current_size",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "current_size",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "current_size_kb",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "current_size_kb",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "eps",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "eps",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "ev",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "ev",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "group",
+                    "owner": "Metrics",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "group",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "kb",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "kb",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "kbps",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "kbps",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "max_age",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "max_age",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "max_lag",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "max_lag",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "max_size",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "max_size",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "max_size_kb",
+                    "owner": "Metrics",
+                    "type": "number",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "max_size_kb",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "group=queue",
+                    "owner": "Metrics.coda"
+                }
+            ],
+            "lineage": "Metrics.coda"
+        }
+    ],
+    "objectNameList": [
+        "Metrics",
+        "coda"
+    ]
+}

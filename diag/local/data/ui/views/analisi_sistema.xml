@@ -1,0 +1,95 @@
+<form>
+  <label>Analisi Sistema - Connessioni</label>
+  <description>Dati di Sistema per troubleshooting</description>
+  <fieldset submitButton="true">
+    <input type="multiselect" token="host">
+      <label>Host-Cliente</label>
+      <populatingSearch fieldForLabel="host" fieldForValue="host">|metadata index=diag type=hosts | table host</populatingSearch>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="text" token="dest_port">
+      <label>Local Port</label>
+      <default>*</default>
+    </input>
+    <input type="text" token="src_port">
+      <label>Foreign Port</label>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <chart>
+        <title>Distribuzione connessioni</title>
+        <search>
+          <query>index=diag host=$host$ source=*systeminfo.txt (tcp OR udp) | rex (?&lt;dest_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;dest_port&gt;\d+)\s+(?&lt;src_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;src_port&gt;\d+)\s+(?&lt;status&gt;\w+) | search (dest_port=* AND src_port=*) | stats count(eval(status="TIME_WAIT")) as "TIME_WAIT" count(eval(status="CLOSE_WAIT")) as CLOSE_WAIT count(eval(status="ESTABLISHED")) as ESTABLISHED | transpose | rename "row 1" as count</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.axisY2.enabled">undefined</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+    <panel>
+      <single>
+        <searchString>index=diag host=$host$ source=*/systeminfo.txt TIME_WAIT 
+ | rex (?&lt;dest_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;dest_port&gt;\d+)\s+(?&lt;src_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;src_port&gt;\d+)\s+(?&lt;status&gt;\w+)
+| search (dest_port=$dest_port$ AND src_port=$src_port$) 
+| stats count</searchString>
+        <earliestTime>0</earliestTime>
+        <latestTime></latestTime>
+        <option name="drilldown">none</option>
+        <option name="beforeLabel">Numero Connessioni:</option>
+        <option name="linkView">search</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Connessioni in TIME_WAIT su porta $dest_port$ da porta $src_port$</title>
+        <searchString>index=diag host=$host$ source=*systeminfo.txt TIME_WAIT | rex (?&lt;dest_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;dest_port&gt;\d+)\s+(?&lt;src_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;src_port&gt;\d+)\s+(?&lt;status&gt;\w+) | search (dest_port=$dest_port$ AND src_port=$src_port$) |stats count as "N.Connessioni" by dest_ip, dest_port,src_ip,src_port  | sort - "N.Connessioni" | rename dest_ip AS "Local Address" dest_port as "Local Port" src_ip AS "Foreign Address" src_port AS "Foreign Port"</searchString>
+        <earliestTime>0</earliestTime>
+        <latestTime></latestTime>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">15</option>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>Connessioni Attive</title>
+        <search>
+          <query>index=diag host=$host$ source=*systeminfo.txt NOT TIME_WAIT | rex (?&lt;dest_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;dest_port&gt;\d+)\s+(?&lt;src_ip&gt;\d+\.\d+\.\d+\.\d+)\:(?&lt;src_port&gt;\d+)\s+(?&lt;status&gt;\w+) | search (dest_port=$dest_port$ AND src_port=$src_port$) | stats count as "N.Connessioni" by dest_ip, dest_port,src_ip| sort - "N.Connessioni" | rename dest_ip AS "Local Address" dest_port as "Local Port" src_ip AS "Foreign Address" src_port AS "Foreign Port"</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+</form>

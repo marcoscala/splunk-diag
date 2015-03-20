@@ -1,0 +1,36 @@
+<form>
+  <label>Analisi Errori</label>
+  <description>Analisi errori Splunk</description>
+  <fieldset submitButton="true" autoRun="true">
+    <input type="multiselect" token="host">
+      <label>Host-cliente</label>
+      <populatingSearch fieldForLabel="host" fieldForValue="host">|metadata index=diag type=hosts | table host</populatingSearch>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="multiselect" token="component">
+      <label>Componente</label>
+      <populatingSearch fieldForLabel="label" fieldForValue="component">index=diag sourcetype=splunkd host=$host$ (log_level=ERR OR log_level=WARN) | fields component | stats count by component | eval label=component."(".count.")"</populatingSearch>
+      <delimiter> OR </delimiter>
+      <choice value="*">Tutti</choice>
+      <valuePrefix>component="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+    </input>
+    <input type="time" token="Time">
+      <label>Intervallo</label>
+      <default>
+        <earliestTime>0</earliestTime>
+        <latestTime/>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <event>
+        <title>Error or Warning</title>
+        <searchString>index=diag host=$host$ sourcetype=splunkd $component$ (log_level=ERR OR log_level=WARN)</searchString>
+        <earliestTime/>
+        <latestTime/>
+      </event>
+    </panel>
+  </row>
+</form>
